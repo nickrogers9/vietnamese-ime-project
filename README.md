@@ -5,12 +5,19 @@ A Vietnamese input method editor with GPT-2 based word prediction.
 ## Project Structure
 
 ├── backend/
+
 │ ├── testing.py # Flask API server
+
 │ ├── test_api.py # API testing script
+
 │ └── requirements.txt # Python dependencies
+
 └── frontend/
+
 ├── index.html # Main interface
+
 ├── style.css # Styling
+
 └── ime.js # IME logic
 
 ## Prerequisites
