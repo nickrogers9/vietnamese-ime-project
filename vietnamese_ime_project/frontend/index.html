@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vietnamese IME with Word Prediction</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-keyboard"></i> Vietnamese IME with AI Word Prediction</h1>
+            <p class="subtitle">Type in Vietnamese and get AI-powered word suggestions</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <label for="vietnameseInput">Type your text here:</label>
+                <div class="input-wrapper">
+                    <textarea 
+                        id="vietnameseInput" 
+                        placeholder="Start typing in Vietnamese... (e.g., Tôi là sinh viên)"
+                        rows="8"
+                    ></textarea>
+                    <div id="suggestionOverlay"></div>
+                </div>
+                
+                <div class="suggestion-dropdown" id="suggestionDropdown">
+                    <div class="dropdown-header">
+                        <span>AI Suggestions</span>
+                        <button class="close-btn" id="closeDropdown">×</button>
+                    </div>
+                    <div class="suggestion-list" id="suggestionList">
+                        <!-- Suggestions will appear here -->
+                    </div>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Words:</span>
+                        <span id="wordCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Characters:</span>
+                        <span id="charCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">API Status:</span>
+                        <span id="apiStatus" class="status-offline">Offline</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <h3><i class="fas fa-cogs"></i> Settings</h3>
+                    
+                    <div class="setting">
+                        <label class="switch">
+                            <input type="checkbox" id="autoSuggestToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span class="setting-label">Enable Auto Suggestions</span>
+                    </div>
+                    
+                    <div class="setting">
+                        <label class="switch">
+                            <input type="checkbox" id="smartSpaceToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span class="setting-label">Smart Space (auto-insert space after accepting suggestion)</span>
+                    </div>
+                    
+                    <div class="setting">
+                        <label>Suggestion Display Delay (ms):</label>
+                        <input type="range" id="suggestionDelay" min="100" max="1000" value="300" step="100">
+                        <span id="delayValue">300</span>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3><i class="fas fa-lightbulb"></i> How to Use</h3>
+                    <ul class="instructions">
+                        <li><strong>Type a word</strong> and press <strong>Spacebar</strong> to see suggestions</li>
+                        <li><strong>Tab key</strong> to accept the main suggestion</li>
+                        <li><strong>Down arrow key</strong> to open suggestion list</li>
+                        <li><strong>Up/Down arrows</strong> to navigate suggestion list</li>
+                        <li><strong>Enter or Right arrow</strong> to accept selected suggestion</li>
+                        <li><strong>Escape key</strong> to close suggestion list</li>
+                        <li>Suggestion only appears with exactly one space after a complete word</li>
+                    </ul>
+                </div>
+
+                <div class="control-group">
+                    <h3><i class="fas fa-bug"></i> Debug Info</h3>
+                    <div class="debug-info">
+                        <button onclick="window.vietnameseIME.testSuggestion()">Test Suggestion</button>
+                        <button onclick="console.log('Cursor at:', window.vietnameseIME.isCursorAtCorrectPosition())">Check Position</button>
+                        <div id="debugOutput" style="margin-top: 10px; font-size: 0.9rem; color: #666;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <h3><i class="fas fa-eye"></i> Text Preview</h3>
+                <div class="preview-box" id="textPreview">
+                    Your text will appear here...
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Vietnamese IME with GPT-2 Word Prediction | Model: NlpHUST/gpt2-vietnamese</p>
+            <p class="hint">Make sure the backend server is running on <code>http://localhost:5000</code></p>
+        </div>
+    </div>
+    
+    <script src="ime.js"></script>
+
+    <script>
+        // Add test method to IME class
+        VietnameseIME.prototype.testSuggestion = function() {
+            console.log('Testing suggestion system...');
+            console.log('Cursor position:', this.textarea.selectionStart);
+            console.log('Text length:', this.textarea.value.length);
+            console.log('Is cursor at correct position?', this.isCursorAtCorrectPosition());
+            console.log('Current suggestions:', this.currentSuggestions);
+            
+            const debugOutput = document.getElementById('debugOutput');
+            debugOutput.innerHTML = `
+                <p>Cursor: ${this.textarea.selectionStart}/${this.textarea.value.length}</p>
+                <p>Valid position: ${this.isCursorAtCorrectPosition()}</p>
+                <p>Suggestions: ${this.currentSuggestions.length}</p>
+            `;
+        };
+    </script>
+</body>
+</html>

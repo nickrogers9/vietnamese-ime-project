@@ -1,0 +1,454 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+    color: white;
+    padding: 30px 40px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.main-content {
+    padding: 30px;
+    display: grid;
+    gap: 30px;
+}
+
+.input-section {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 15px;
+    border: 2px solid #e9ecef;
+    position: relative;
+}
+
+.input-section label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.input-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+    min-height: 200px;
+}
+
+#vietnameseInput {
+    width: 100%;
+    padding: 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 1.6;
+    resize: vertical;
+    font-family: 'Segoe UI', sans-serif;
+    transition: border-color 0.3s;
+    background: white;
+    position: relative;
+    z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#vietnameseInput:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#suggestionOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    z-index: 2;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.suggestion-text {
+    position: absolute !important;
+    white-space: nowrap !important;
+    background: transparent !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    font-family: inherit !important;
+    pointer-events: none !important;
+}
+
+.suggestion-fill {
+    color: #888 !important;
+    opacity: 0.7;
+}
+
+.suggestion-text .dropdown-arrow {
+    color: #667eea;
+    font-size: 0.8em;
+    margin-left: 5px;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.suggestion-dropdown {
+    position: fixed !important;
+    background: white;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    width: 300px;
+    z-index: 1001;
+    display: none;
+}
+
+.dropdown-header {
+    background: #667eea;
+    color: white;
+    padding: 15px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.close-btn:hover {
+    opacity: 0.8;
+}
+
+.suggestion-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.suggestion-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.suggestion-item:hover {
+    background: #f8f9fa;
+}
+
+.suggestion-item.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.suggestion-item.active .probability {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+.word-text {
+    font-weight: 500;
+}
+
+.probability {
+    color: #666;
+    font-size: 0.9rem;
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.stats {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-label {
+    font-weight: 600;
+    color: #555;
+}
+
+#wordCount, #charCount {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #667eea;
+}
+
+#apiStatus {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.status-online {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-offline {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.control-group {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 15px;
+    border: 2px solid #e9ecef;
+}
+
+.control-group h3 {
+    margin-bottom: 20px;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.setting {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #667eea;
+}
+
+input:checked + .slider:before {
+    transform: translateX(30px);
+}
+
+.setting-label {
+    flex: 1;
+}
+
+input[type="range"] {
+    width: 150px;
+}
+
+#delayValue {
+    font-weight: bold;
+    color: #667eea;
+    min-width: 40px;
+    display: inline-block;
+}
+
+.instructions {
+    list-style: none;
+    padding-left: 0;
+}
+
+.instructions li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.instructions li:before {
+    content: "✓";
+    color: #667eea;
+    font-weight: bold;
+}
+
+.preview-section {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 15px;
+    border: 2px solid #e9ecef;
+}
+
+.preview-box {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 15px;
+    min-height: 100px;
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+.footer {
+    background: #2c3e50;
+    color: white;
+    padding: 20px 40px;
+    text-align: center;
+}
+
+.footer p {
+    margin: 5px 0;
+}
+
+.hint {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+/* Debug info styling */
+.debug-info button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 0.9rem;
+}
+
+.debug-info button:hover {
+    background: #764ba2;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .main-content {
+        padding: 20px;
+    }
+    
+    .suggestion-dropdown {
+        width: 250px;
+    }
+}
+
+/* Ensure textarea has proper line wrapping */
+textarea {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Fix for text wrapping in the textarea */
+#vietnameseInput {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+/* Fix for dropdown positioning on mobile */
+@media (max-width: 768px) {
+    .suggestion-dropdown {
+        position: fixed !important;
+        left: 10px !important;
+        right: 10px !important;
+        width: auto !important;
+        max-width: calc(100vw - 20px);
+    }
+}
